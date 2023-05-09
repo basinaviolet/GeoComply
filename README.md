@@ -3,7 +3,7 @@ Case study for the position of Junior QA Automation
 
 Pages:
 BasePage contains configurations and wrappers for methods with web elements; 
-StartPage for launching Gmail mailbox; 
+RegistrationPage for launching Gmail mailbox; 
 MainPage - the main page for organizing mail
 
 Utils src\main:
@@ -26,9 +26,9 @@ fileWithData.yml - file with addition data for tests
 Tests:
 BaseTest contains configurations for tests starting and finishing; 
 UI-tests
-[StartPageTest - testing way to MainPage with Gmail registration]
-[SendMailTest - functional tests for creating and sendind message]
-[ReceivedMailTest - functional tests for received message checking]
+StartPageTest - testing way to MainPage with Gmail registration
+SendMailTest - functional tests for creating and sendind message
+ReceivedMailTest - functional tests for received message checking
 
 Addition information
 test "ReceivedMailTest\checkReceivedMessageByJavaMail" is disabled due to the requirements of using 2-step verification. 

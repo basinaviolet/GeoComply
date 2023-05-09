@@ -133,7 +133,7 @@ public class MainPage extends BasePage {
                 if (!element.getText().equals("")) messageDataSet.add(element.getText());
             }
             fillMailContainer(messageDataSet);
-        } else logger.error("Elements of mail were mot found");
+        } else logger.error("Elements {} of mail were mot found", lastReceivedMailDataList);
     }
 
     public void fillMailContainer(Set<String> data){
