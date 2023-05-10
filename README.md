@@ -37,6 +37,9 @@ UI-tests
 - ReceivedMailTest - functional tests for received message checking
 
 ---
+The link to the Allure report is in allureReport.txt
+
+---
 ### Addition information 
 test "ReceivedMailTest\checkReceivedMessageByJavaMail" is disabled due to the requirements of using 2-step verification. 
-Using this type of verification requires my phone during registration. But unfortunately this is not possible. 
+Using this type of verification requires my phone during registration. But unfortunately this is not possible.
