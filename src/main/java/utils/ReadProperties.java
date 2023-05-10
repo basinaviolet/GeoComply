@@ -31,7 +31,7 @@ public class ReadProperties {
     public static String getPassword() {
         return properties.getProperty("password");
     }
-    public static String getPasswordGmail() {
-        return properties.getProperty("passwordGmail");
+    public static String getPassword2StepVerification() {
+        return properties.getProperty("password2StepVerification");
     }
 }

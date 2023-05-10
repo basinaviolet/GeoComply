@@ -40,12 +40,10 @@ public class RegistrationTest extends BaseTest {
                 .withFailMessage("The continue button on the entering email page is not displayed")
                 .isTrue();
         MainPage mainPage = page.fillPassword();
-        softAssertions.assertThat(mainPage.getTitlePageText())
-                .isEqualTo("Gmail");
-        softAssertions.assertThat(mainPage.getTitlePageText1())
-                .isEqualTo(ReadProperties.getUrl());
-        softAssertions.assertThat(mainPage.isTitleTextContains("geocomplytestvb@gmail.com"))
+        softAssertions.assertThat(mainPage.isTitleTextContains(ReadProperties.getEmail().toLowerCase()))
                 .withFailMessage("The page title does not contain the user`s e-mail")
                 .isTrue();
+        softAssertions.assertThat(mainPage.getTitlePageText(ReadProperties.getEmail().toLowerCase()))
+                .isEqualTo(ReadProperties.getUrl());
     }
 }

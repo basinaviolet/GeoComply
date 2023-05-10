@@ -15,8 +15,6 @@ import pages.MainPage;
 import pages.StartPage;
 import utils.ReadProperties;
 
-import static utils.Waiter.waitFor;
-
 @Epic("Gmail mailbox")
 @Feature("Received mail")
 public class ReceivedMailTest extends BaseTest {
@@ -33,8 +31,7 @@ public class ReceivedMailTest extends BaseTest {
         page.fillEmail();
         mainPage = page.fillPassword();
         mainPage.clickComposeNewMessageBtn();
-        mainPage.fillLetter(ReadProperties.getEmail(), subject, messageBody);
-        waitFor(5000, "waiting for a message to be sent and received");
+        mainPage.fillAndSendLetter(ReadProperties.getEmail(), subject, messageBody);
     }
 
     @Severity(SeverityLevel.CRITICAL)
@@ -44,10 +41,12 @@ public class ReceivedMailTest extends BaseTest {
     public void checkReceivedMessageByPage() {
         messageData = mainPage.getDataForVerifyReceivedMessage();
         softAssertions.assertThat(messageData.getEmailFrom())
-                .isEqualTo(email);
-        softAssertions.assertThat(messageData.getEmailFrom())
+                .isEqualTo(email.toLowerCase());
+        softAssertions.assertThat(messageData.getSender())
+                .isEqualTo("me");
+        softAssertions.assertThat(messageData.getSubject())
                 .isEqualTo(subject);
-        softAssertions.assertThat(messageData.getEmailFrom())
+        softAssertions.assertThat(messageData.getBody())
                 .isEqualTo(messageBody);
     }
 

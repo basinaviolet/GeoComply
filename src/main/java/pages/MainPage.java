@@ -13,7 +13,7 @@ import java.util.Set;
 
 public class MainPage extends BasePage {
     protected static final Logger logger = (Logger) LogManager.getLogger(MainPage.class);
-    MailDTO messageData;
+    MailDTO messageData = new MailDTO();
 
     @FindBy(xpath = "//div[@role='button' and text()=\"Compose\"]")
     private WebElement createNewLetter;
@@ -34,6 +34,9 @@ public class MainPage extends BasePage {
 
     @FindBy(xpath = "//div[@role='button' and contains(@data-tooltip,\"Send\")]")
     private WebElement sendButton;
+
+    @FindBy(xpath = "//span[text()=\"Message sent\"]")
+    private WebElement checkSendMessage;
 
     //----box of received emails-----
     @FindBy(xpath = "//div[@aria-label='Primary']")
@@ -71,6 +74,14 @@ public class MainPage extends BasePage {
         return getValueOfAttributeWithoutWaiter(subjectField, subjectTextAttribute);
     }
 
+    public void checkSendMessageInformation() {
+        int count = 3;
+        do {
+            logger.info("Waiting for \"Message sent\" information");
+            count--;
+        } while (count > 0 && !isElementDisplayedWithWaiter(checkSendMessage));
+    }
+
     public boolean isMessageBodyFieldDisplayed() {
         return isElementDisplayedWithWaiter(messageBodyField);
     }
@@ -83,11 +94,8 @@ public class MainPage extends BasePage {
         return getTextWithWaiter(sendButton);
     }
 
-    public String getTitlePageText() {
-        return driver.getTitle();
-    }
-    public String getTitlePageText1() {
-        return getCurrentUrlWithoutWaiter();
+    public String getTitlePageText(String textForCheckingTitle) {
+        return getCurrentUrlWithWaiter(textForCheckingTitle);
     }
 
     public boolean isTitleTextContains(String title) {
@@ -102,11 +110,16 @@ public class MainPage extends BasePage {
         clickForElementWithWaiter(createNewLetter);
     }
 
-    public void fillLetter(String recipient, String subject, String body) {
+    public void fillAndSendLetter(String recipient, String subject, String body) {
+        fillNewLetter(recipient, subject, body);
+        clickForElementWithWaiter(sendButton);
+        checkSendMessageInformation();
+    }
+
+    public void fillNewLetter(String recipient, String subject, String body) {
         setTextToField(recipientTOField, recipient);
         setTextToField(subjectField, subject);
         setTextToField(messageBodyField, body);
-        clickForElementWithWaiter(sendButton);
     }
 
     public void goToPrimaryBox() {
@@ -118,16 +131,17 @@ public class MainPage extends BasePage {
 
     public MailDTO getDataForVerifyReceivedMessage() {
         goToPrimaryBox();
-        if (isElementDisplayedWithWaiter(checkEmail)) {
-            messageData.setEmailFrom(checkEmail.getAttribute("email"));
-            messageData.setSender(checkEmail.getAttribute("name"));
-        }
+        logger.debug("Getting message data: e-mail from and sender");
+        messageData.setEmailFrom(checkEmail.getAttribute("email"));
+        messageData.setSender(checkEmail.getAttribute("name"));
+        logger.info("Message e-mail from: {}, sender: {}", messageData.getEmailFrom(), messageData.getSender());
         getMessageData();
         return messageData;
     }
 
     public void getMessageData() {
         Set<String> messageDataSet = new HashSet<>();
+        logger.debug("Getting message data: body");
         if (lastReceivedMailDataList.size() > 0) {
             for (WebElement element : lastReceivedMailDataList) {
                 if (!element.getText().equals("")) messageDataSet.add(element.getText());
@@ -136,13 +150,15 @@ public class MainPage extends BasePage {
         } else logger.error("Elements {} of mail were mot found", lastReceivedMailDataList);
     }
 
-    public void fillMailContainer(Set<String> data){
+    public void fillMailContainer(Set<String> data) {
         if (!data.isEmpty()) {
             Object[] bodyElements = data.toArray();
             messageData.setSubject(String.valueOf(bodyElements[1]));
             messageData.setBody(String.valueOf(bodyElements[3])
                     .replace(String.valueOf(bodyElements[0]), "")
-                    .replace(String.valueOf(bodyElements[1]), ""));
-        } else logger.error("Elements of mail were mot found");
+                    .replace("\n", "")
+            );
+            logger.info("Message body: {}", messageData.getBody());
+        } else logger.error("Message body was not found");
     }
 }

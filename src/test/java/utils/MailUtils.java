@@ -23,22 +23,23 @@ public class MailUtils {
     protected static final Logger logger = (Logger) LogManager.getLogger(MailUtils.class);
 
     String email = ReadProperties.getEmail();
-    String password = ReadProperties.getPasswordGmail();
+    String password2StepVerification = ReadProperties.getPassword2StepVerification();
+    String password = ReadProperties.getPassword();
     MailDTO messageData = new MailDTO();
 
     public MailDTO getMessageFromEmail() {
-        Properties properties = setPropertiesForMail(email, password);
+        Properties properties = setPropertiesForMail(email, password2StepVerification);
 
         Session session = Session.getInstance(properties, new Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(email, password);
+                return new PasswordAuthentication(email, password2StepVerification);
             }
         });
         logger.info("Getting information about the last message");
         try {
             Store store = session.getStore("imap");
-            store.connect(email, password);
+            store.connect(email, password2StepVerification);
 
             Folder folder = store.getFolder("INBOX");
             folder.open(Folder.READ_ONLY);

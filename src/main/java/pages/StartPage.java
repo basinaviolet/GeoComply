@@ -35,6 +35,7 @@ public class StartPage extends BasePage {
     private WebElement englishLanguage;
 
     public StartPage(){
+        setupVirtualAuthenticator();
         driver.get(ReadProperties.getUrl());
     }
 

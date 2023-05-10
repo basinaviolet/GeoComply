@@ -59,6 +59,6 @@ public class SendMailTest extends BaseTest {
         softAssertions.assertThat(mainPage.getSendButtonText())
                 .isEqualTo("Send");
 
-        mainPage.fillLetter(ReadProperties.getEmail(), subject, messageBody);
+        mainPage.fillAndSendLetter(ReadProperties.getEmail(), subject, messageBody);
     }
 }
