@@ -41,5 +41,10 @@ The link to the Allure report is in allureReport.txt
 
 ---
 ### Addition information 
-test "ReceivedMailTest\checkReceivedMessageByJavaMail" is disabled due to the requirements of using 2-step verification. 
-Using this type of verification requires my phone during registration. But unfortunately this is not possible.
+test "ReceivedMailTest\checkReceivedMessageByJavaMail" requirements of using 2-step verification. 
+
+The default settings are for windows.
+
+For using MAC: 
+- open the config.properties file 
+- assign the password2StepVerification field a value from password2StepVerificationForMac

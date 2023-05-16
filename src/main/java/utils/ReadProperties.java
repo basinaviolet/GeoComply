@@ -34,4 +34,16 @@ public class ReadProperties {
     public static String getPassword2StepVerification() {
         return properties.getProperty("password2StepVerification");
     }
+    public static String getBase64EncodedKey() {
+        return properties.getProperty("base64EncodedKey");
+    }
+    public static String getBase64EncodedID() {
+        return properties.getProperty("base64EncodedID");
+    }
+    public static String getBase64UserHandle() {
+        return properties.getProperty("base64UserHandle");
+    }
+    public static String getRpId() {
+        return properties.getProperty("rpId");
+    }
 }

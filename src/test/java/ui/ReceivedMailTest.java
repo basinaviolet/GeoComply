@@ -8,7 +8,6 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import mail.MailDTO;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import pages.MainPage;
@@ -50,7 +49,6 @@ public class ReceivedMailTest extends BaseTest {
                 .isEqualTo(messageBody);
     }
 
-    @Disabled("Needs Gmail 2-step verification")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Checking the data of the received message. By JavaMail")
     @DisplayName("Received message data matches the actual data")
